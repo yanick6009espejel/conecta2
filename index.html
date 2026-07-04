@@ -17,6 +17,8 @@
         p, li { line-height: 1.8; }
         .btn-aceptar { background-color: #C59D83; color: #FFFFFF; border: none; padding: 15px 30px; cursor: pointer; display: block; margin: 30px auto; width: 100%; font-size: 18px; font-weight: bold; }
         .btn-aceptar:hover { background-color: #A67C6D; }
+        .btn-whatsapp { background-color: #063D3B; color: #FFFFFF; text-decoration: none; padding: 15px 30px; display: inline-block; margin-top: 30px; font-size: 18px; font-weight: bold; border: 1px solid #042928; box-shadow: 0 2px 4px #042928; }
+        .btn-whatsapp:hover { background-color: #042928; }
         #confirmation-screen, #blocked-screen { display: none; text-align: center; padding: 50px; color: #063D3B; font-weight: bold; }
         input[type="text"] { width: 100%; padding: 12px; margin-top: 10px; box-sizing: border-box; border: 1px solid #063D3B; }
     </style>
@@ -32,7 +34,7 @@
         <p>La solidez de este proyecto emana de una experiencia probada en la gestión de crisis, negociación y estructuras de alto nivel. Yannick Espejel ha desempeñado funciones estratégicas colaborando con instituciones de gran envergadura dentro del espectro político nacional (incluyendo PRD y Morena) y en la ejecución operativa de protocolos de Protección Civil. Dicho bagaje técnico incluye colaboraciones de alta responsabilidad con figuras de peso en la administración pública y gestión de emergencias, tales como Enrique Vargas y Laura Velázquez Alzúa, actual Coordinadora Nacional de Protección Civil.</p>
 
         <h2>2. Definición Operativa</h2>
-        <p><strong>Conectados</strong> es una unidad de élite conformada por especialistas de alto desempeño. Nuestra función es proporcionar soluciones estratégicas a empresas de alto valor, conglomerados y entidades políticas de perfil ejecutivo. Nos alejamos de la teoría académica convencional para priorizar la <strong>experiencia aplicada en campo</strong>. Nuestra metodología se basa en la ejecución de resultados tangibles bajo una estructura jerárquica clara.</p>
+        <p><strong>Conectados</strong> es una unidad de élite conformada por especialistas de alto desempeño. Nuestra función es proporcionar soluciones estratégicas a empresas de alto valor, conglomerados y entidades políticas de perfil ejecutivo. Nos alejamos de la teoría académica unconventional para priorizar la <strong>experiencia aplicada en campo</strong>. Nuestra metodología se basa en la ejecución de resultados tangibles bajo una estructura jerárquica clara.</p>
 
         <h2>3. Ejes de Servicio</h2>
         <ul>
@@ -60,15 +62,18 @@
 
     <div id="confirmation-screen">
         <h2 id="confirmation-text"></h2>
+        <p style="margin-top: 20px; color: #333; font-weight: normal;">El proceso de verificación ha concluido con éxito. Use el siguiente enlace oficial para incorporarse al canal operativo:</p>
+        <a href="https://chat.whatsapp.com/KIwcQijMcM8IFoyv0yroNh" class="btn-whatsapp" target="_blank">Unirse al Grupo de WhatsApp</a>
     </div>
 
     <div id="blocked-screen">
         <h2>ACCESO DENEGADO</h2>
-        <p>Este documento ha sido consultado previamente o el enlace ha sido revocado.</p>
+        <p>Este documento ha sido consultado previamente o el enlace ha sido revocado. Acceso restringido.</p>
     </div>
 </div>
 
 <script>
+    // Verificación de candado al cargar la página
     window.onload = function() {
         if (localStorage.getItem('conectados_used') === 'true') {
             document.getElementById('content').style.display = 'none';
@@ -80,16 +85,21 @@
         const nombre = document.getElementById('nombreUsuario').value;
         if (!nombre) { alert("Es obligatorio ingresar su nombre para continuar."); return; }
 
+        // Activación del candado de uso único
         localStorage.setItem('conectados_used', 'true');
         const fecha = new Date().toLocaleString('es-MX');
 
+        // Transmisión de datos a EmailJS
         emailjs.send('service_avzt25ngbOZMupiRytgbY8cH5DUX', 'template_43iqh7l', {
             nombre: nombre,
             fecha: fecha
         }).then(function(response) {
-            console.log('Confirmación enviada', response.status);
+            console.log('Notificación enviada con éxito', response.status);
+        }, function(error) {
+            console.error('Error de red en EmailJS', error);
         });
 
+        // Transición de pantallas
         document.getElementById('content').style.display = 'none';
         document.getElementById('confirmation-text').innerText = "He aceptado los términos y condiciones del contrato, formándome de manera formal a partir de este momento (" + fecha + ") parte de la familia Conectados bajo la dirección de Yannick Espejel.";
         document.getElementById('confirmation-screen').style.display = 'block';
