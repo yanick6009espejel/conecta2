@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Conectados - Propuesta Operativa</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({ publicKey: 'gbOZMupiRytgbY8cH5DUX' });
+        })();
+    </script>
+    <style>
+        body { background-color: #FFFFFF; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; margin: 0; padding: 40px; }
+        #container { max-width: 800px; margin: 0 auto; border: 1px solid #063D3B; padding: 40px; box-shadow: 0 4px 8px #042928; }
+        h1 { color: #063D3B; border-bottom: 3px solid #C59D83; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { color: #063D3B; margin-top: 30px; }
+        p, li { line-height: 1.8; }
+        .btn-aceptar { background-color: #C59D83; color: #FFFFFF; border: none; padding: 15px 30px; cursor: pointer; display: block; margin: 30px auto; width: 100%; font-size: 18px; font-weight: bold; }
+        .btn-aceptar:hover { background-color: #A67C6D; }
+        #confirmation-screen, #blocked-screen { display: none; text-align: center; padding: 50px; color: #063D3B; font-weight: bold; }
+        input[type="text"] { width: 100%; padding: 12px; margin-top: 10px; box-sizing: border-box; border: 1px solid #063D3B; }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <div id="content">
+        <h1>PROPUESTA DE INTEGRACIÓN OPERATIVA: CONECTADOS</h1>
+        
+        <h2>1. Perfil de Liderazgo y Trayectoria</h2>
+        <p>La dirección de <strong>Conectados</strong> está bajo el mando de Yannick Espejel, cuya trayectoria no se limita al plano académico, sino que se ha consolidado a través de la ejecución operativa en el terreno político, empresarial y privado.</p>
+        <p>La solidez de este proyecto emana de una experiencia probada en la gestión de crisis, negociación y estructuras de alto nivel. Yannick Espejel ha desempeñado funciones estratégicas colaborando con instituciones de gran envergadura dentro del espectro político nacional (incluyendo PRD y Morena) y en la ejecución operativa de protocolos de Protección Civil. Dicho bagaje técnico incluye colaboraciones de alta responsabilidad con figuras de peso en la administración pública y gestión de emergencias, tales como Enrique Vargas y Laura Velázquez Alzúa, actual Coordinadora Nacional de Protección Civil.</p>
+
+        <h2>2. Definición Operativa</h2>
+        <p><strong>Conectados</strong> es una unidad de élite conformada por especialistas de alto desempeño. Nuestra función es proporcionar soluciones estratégicas a empresas de alto valor, conglomerados y entidades políticas de perfil ejecutivo. Nos alejamos de la teoría académica convencional para priorizar la <strong>experiencia aplicada en campo</strong>. Nuestra metodología se basa en la ejecución de resultados tangibles bajo una estructura jerárquica clara.</p>
+
+        <h2>3. Ejes de Servicio</h2>
+        <ul>
+            <li><strong>Gestión de Talento:</strong> Reclutamiento, selección y capacitación integral, desde puestos operativos hasta altos mandos ejecutivos.</li>
+            <li><strong>Consultoría Estratégica:</strong> Gestión de crisis, negociación de alto impacto y protección civil.</li>
+            <li><strong>Verticales de Especialidad:</strong> Área Jurídica (Dirigida por Mariluz González) y Área Clínica/Psicológica (Dirigida por Alejandro Cárdenas).</li>
+            <li><strong>Presencia Pública:</strong> Desarrollo de conferencias especializadas y producción de contenido digital de alto nivel.</li>
+        </ul>
+
+        <h2>4. Términos y Condiciones</h2>
+        <p>La aceptación implica la adhesión incondicional a los protocolos de blindaje operativo y reputacional:</p>
+        <ul>
+            <li><strong>Propiedad Intelectual:</strong> Todo contenido generado bajo el sello "Conectados" es propiedad exclusiva de Yannick Espejel.</li>
+            <li><strong>Confidencialidad:</strong> La confidencialidad es absoluta. Cualquier filtración derivará en auditoría legal y cese inmediato.</li>
+            <li><strong>Política de Salida:</strong> Relación <em>at-will</em>. Se prohíbe emitir comentarios sobre la marca o realizar atribuciones públicas de colaboración pasada una vez finalizada la relación.</li>
+        </ul>
+
+        <div style="margin-top: 30px;">
+            <label for="nombreUsuario"><strong>Ingrese nombre completo para formalizar la aceptación:</strong></label>
+            <input type="text" id="nombreUsuario" placeholder="Nombre completo" required>
+        </div>
+
+        <button class="btn-aceptar" onclick="aceptarTerminos()">Aceptar términos y formalizar integración</button>
+    </div>
+
+    <div id="confirmation-screen">
+        <h2 id="confirmation-text"></h2>
+    </div>
+
+    <div id="blocked-screen">
+        <h2>ACCESO DENEGADO</h2>
+        <p>Este documento ha sido consultado previamente o el enlace ha sido revocado.</p>
+    </div>
+</div>
+
+<script>
+    window.onload = function() {
+        if (localStorage.getItem('conectados_used') === 'true') {
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('blocked-screen').style.display = 'block';
+        }
+    };
+
+    function aceptarTerminos() {
+        const nombre = document.getElementById('nombreUsuario').value;
+        if (!nombre) { alert("Es obligatorio ingresar su nombre para continuar."); return; }
+
+        localStorage.setItem('conectados_used', 'true');
+        const fecha = new Date().toLocaleString('es-MX');
+
+        emailjs.send('service_avzt25ngbOZMupiRytgbY8cH5DUX', 'template_43iqh7l', {
+            nombre: nombre,
+            fecha: fecha
+        }).then(function(response) {
+            console.log('Confirmación enviada', response.status);
+        });
+
+        document.getElementById('content').style.display = 'none';
+        document.getElementById('confirmation-text').innerText = "He aceptado los términos y condiciones del contrato, formándome de manera formal a partir de este momento (" + fecha + ") parte de la familia Conectados bajo la dirección de Yannick Espejel.";
+        document.getElementById('confirmation-screen').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
